@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+</head>
+<body>
+
+{{ dump() }}
+
+<form action="{{ actionUrl|default('') }}" method="POST">
+    <script src="https://secure.nmi.com/token/Collect.js" data-tokenization-key="A5Vv23-n9tqEh-KZnW6n-C7F444"></script>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        CollectJS.configure({
+          'paymentSelector': '#customPayButton',
+          'theme': 'foundation',
+          'primaryColor': '#ff288d',
+          'secondaryColor': '#ffe200',
+          'buttonText': 'SUBMIT ME!',
+          'paymentType': 'cc',
+          'fields': {
+            // 'cvv': 'hide'
+          },
+          'callback': function (response) {
+            alert(response.token);
+            var input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'payment_token';
+            input.value = response.token;
+            var form = document.getElementsByTagName('form')[0];
+            form.appendChild(input);
+            form.submit();
+          }
+        });
+      });
+
+      setTimeout('CollectJS.startPaymentRequest()', 1000);
+    </script>
+</form>
+
+</body>
+</html>

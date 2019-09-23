@@ -1,0 +1,6 @@
+services:
+    mcro_sylius_nmi_plugin.form.type:
+        class: MCRO\SyliusNMIPlugin\Form\Type\SyliusGatewayConfigurationType
+        tags:
+            - { name: sylius.gateway_configuration_type, type: nmi_payment, label: "NMI Payment" }
+            - { name: form.type }

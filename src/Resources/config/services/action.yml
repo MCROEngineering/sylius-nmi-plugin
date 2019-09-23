@@ -1,0 +1,16 @@
+services:
+    mcro_sylius_nmi_plugin.action.direct_post:
+        class: MCRO\SyliusNMIPlugin\Payum\Action\DirectPostAction
+        public: true
+        arguments:
+            - "@sylius.payment_description_provider"
+        tags:
+            - { name: payum.action, factory: nmi_payment, alias: payum.action.direct_post }
+
+    mcro_sylius_nmi_plugin.action.convert_payment:
+        class: MCRO\SyliusNMIPlugin\Payum\Action\ConvertPaymentAction
+        public: true
+        arguments:
+            - "@sylius.payment_description_provider"
+        tags:
+            - { name: payum.action, factory: nmi_payment, alias: payum.action.convert_payment }

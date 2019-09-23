@@ -1,0 +1,7 @@
+services:
+    mcro_sylius_nmi_plugin.gateway_factory.nmi:
+        class: Payum\Core\Bridge\Symfony\Builder\GatewayFactoryBuilder
+        arguments:
+            - MCRO\SyliusNMIPlugin\NMIGatewayFactory
+        tags:
+            - { name: payum.gateway_factory_builder, factory: nmi_payment }

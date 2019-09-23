@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Acme\SyliusExamplePlugin\Controller;
+namespace MCRO\SyliusNMIPlugin\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +16,8 @@ final class GreetingController extends Controller
      */
     public function staticallyGreetAction(?string $name): Response
     {
-        return $this->render('@AcmeSyliusExamplePlugin/static_greeting.html.twig', ['greeting' => $this->getGreeting($name)]);
+        return $this->render('@MCROSyliusNMIPlugin/static_greeting.html.twig', ['greeting' => $this->getGreeting
+        ($name)]);
     }
 
     /**
@@ -26,7 +27,8 @@ final class GreetingController extends Controller
      */
     public function dynamicallyGreetAction(?string $name): Response
     {
-        return $this->render('@AcmeSyliusExamplePlugin/dynamic_greeting.html.twig', ['greeting' => $this->getGreeting($name)]);
+        return $this->render('@MCROSyliusNMIPlugin/dynamic_greeting.html.twig', ['greeting' => $this->getGreeting
+        ($name)]);
     }
 
     /**
