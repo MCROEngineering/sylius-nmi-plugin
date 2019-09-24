@@ -8,8 +8,6 @@
 </head>
 <body>
 
-{{ dump() }}
-
 <form action="{{ actionUrl|default('') }}" method="POST">
     <script src="https://secure.nmi.com/token/Collect.js" data-tokenization-key="A5Vv23-n9tqEh-KZnW6n-C7F444"></script>
 
@@ -23,7 +21,7 @@
           'buttonText': 'SUBMIT ME!',
           'paymentType': 'cc',
           'fields': {
-            // 'cvv': 'hide'
+            'cvv': 'hide'
           },
           'callback': function (response) {
             alert(response.token);

@@ -31,13 +31,13 @@ final class CaptureAction implements ActionInterface, GatewayAwareInterface
     } else {
       if (false == $model['card']) {
         $obtainToken = new ObtainToken($request->getToken());
-        $obtainToken->setModel($model);
+        $obtainToken->setModel($request->getFirstModel());
 
         $this->gateway->execute($obtainToken);
       }
     }
 
-    $this->gateway->execute(new CreateCharge($model));
+    $this->gateway->execute(new CreateCharge($request->getFirstModel()));
   }
 
   public function supports($request): bool

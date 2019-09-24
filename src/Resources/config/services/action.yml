@@ -3,14 +3,26 @@ services:
         class: MCRO\SyliusNMIPlugin\Payum\Action\DirectPostAction
         public: true
         arguments:
-            - "@sylius.payment_description_provider"
+            - "@sylius.http_client"
         tags:
             - { name: payum.action, factory: nmi_payment, alias: payum.action.direct_post }
 
-    mcro_sylius_nmi_plugin.action.convert_payment:
-        class: MCRO\SyliusNMIPlugin\Payum\Action\ConvertPaymentAction
+    mcro_sylius_nmi_plugin.action.status:
+        class: MCRO\SyliusNMIPlugin\Payum\Action\StatusAction
+        public: true
+        tags:
+            - { name: payum.action, factory: nmi_payment, alias: payum.action.status }
+
+    mcro_sylius_nmi_plugin.action.obtain_token:
+        class: MCRO\SyliusNMIPlugin\Payum\Action\ObtainTokenAction
         public: true
         arguments:
-            - "@sylius.payment_description_provider"
+            - "MCROSyliusNMIPlugin/payment.html.twig"
         tags:
-            - { name: payum.action, factory: nmi_payment, alias: payum.action.convert_payment }
+            - { name: payum.action, factory: nmi_payment, alias: payum.action.obtain_token }
+
+    mcro_sylius_nmi_plugin.action.capture:
+        class: MCRO\SyliusNMIPlugin\Payum\Action\CaptureAction
+        public: true
+        tags:
+            - { name: payum.action, factory: nmi_payment, alias: payum.action.capture }

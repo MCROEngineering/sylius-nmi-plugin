@@ -34,7 +34,7 @@ final class NMIGatewayFactory extends GatewayFactory
     ]);
 
     $config['payum.api'] = function (ArrayObject $config) {
-      return new SyliusApi($config['api_key']);
+      return new SyliusApi($config['api_key'], $config['username'], $config['password']);
     };
   }
 }

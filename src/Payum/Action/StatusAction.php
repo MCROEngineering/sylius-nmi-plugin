@@ -20,13 +20,13 @@ final class StatusAction implements ActionInterface
 
         $details = $payment->getDetails();
 
-        if (isset($details['status']) && 200 === $details['status']) {
+        if (isset($details['status']) && 100 == $details['status']) {
             $request->markCaptured();
 
             return;
         }
 
-        if (!isset($details['status']) || 400 === $details['status']) {
+        if (!isset($details['status']) || 100 != $details['status']) {
             $request->markFailed();
 
             return;

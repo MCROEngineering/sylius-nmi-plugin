@@ -33,7 +33,7 @@ class ObtainTokenAction implements ActionInterface, GatewayAwareInterface, ApiAw
    */
   public function __construct($templateName)
   {
-    $this->templateName = $templateName;
+    $this->templateName = '@' . $templateName;
   }
 
 
@@ -57,7 +57,7 @@ class ObtainTokenAction implements ActionInterface, GatewayAwareInterface, ApiAw
     }
 
     $this->gateway->execute($renderTemplate = new RenderTemplate($this->templateName, array(
-      'model' => $model,
+      'model' => $request->getFirstModel(),
       'publishable_key' => $this->api->getApiKey(),
       'actionUrl' => $request->getToken() ? $request->getToken()->getTargetUrl() : null,
     )));

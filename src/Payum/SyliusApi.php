@@ -6,16 +6,45 @@ namespace MCRO\SyliusNMIPlugin\Payum;
 
 final class SyliusApi
 {
-    /** @var string */
-    private $apiKey;
+  /**
+   * @var string|null
+   */
+  private $apiKey;
 
-    public function __construct(string $apiKey)
-    {
-        $this->apiKey = $apiKey;
-    }
+  /** @var string */
+  private $username;
 
-    public function getApiKey(): string
-    {
-        return $this->apiKey;
-    }
+  /** @var string */
+  private $password;
+
+  public function __construct(?string $apiKey, string $username, string $password)
+  {
+    $this->apiKey = $apiKey;
+    $this->username = $username;
+    $this->password = $password;
+  }
+
+  /**
+   * @return string
+   */
+  public function getApiKey(): ?string
+  {
+    return $this->apiKey;
+  }
+
+  /**
+   * @return string
+   */
+  public function getUsername(): string
+  {
+    return $this->username;
+  }
+
+  /**
+   * @return string
+   */
+  public function getPassword(): string
+  {
+    return $this->password;
+  }
 }
