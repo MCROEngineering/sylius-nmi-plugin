@@ -69,14 +69,11 @@ final class DirectPostAction implements ActionInterface, ApiAwareInterface
 
       $result = $this->parseResponse($content);
 
-      $model['status'] = (int)$result['response_code'] ?? 400;
-
-      $request->setModel($model);
-
+      $payment->setDetails(['status' => (int)$result['response_code'] ?? 400]);
+      $request->setModel($payment);
     } catch (RequestException $exception) {
-      $model['status'] = 400;
-
-      $request->setModel($model);
+      $payment->setDetails(['status' => 400]);
+      $request->setModel($payment);
     }
   }
 

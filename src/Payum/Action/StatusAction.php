@@ -22,13 +22,11 @@ final class StatusAction implements ActionInterface
 
         if (isset($details['status']) && 100 == $details['status']) {
             $request->markCaptured();
-
             return;
         }
 
-        if (!isset($details['status']) || 100 != $details['status']) {
+        if (isset($details['status']) && 100 != $details['status']) {
             $request->markFailed();
-
             return;
         }
     }
