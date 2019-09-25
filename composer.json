@@ -1,5 +1,5 @@
 {
-    "name": "sylius/mcro-nmi-plugin",
+    "name": "sylius/sylius-nmi-plugin",
     "type": "sylius-plugin",
     "keywords": ["sylius", "sylius-plugin"],
     "description": "MCRO NMI plugin for Sylius.",
