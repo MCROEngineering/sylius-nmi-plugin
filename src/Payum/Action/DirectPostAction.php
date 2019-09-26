@@ -12,11 +12,16 @@ use Payum\Core\ApiAwareInterface;
 use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\Exception\RequestNotSupportedException;
 use Payum\Core\Exception\UnsupportedApiException;
+use Payum\Core\GatewayAwareInterface;
+use Payum\Core\GatewayAwareTrait;
 use Payum\Stripe\Request\Api\CreateCharge;
 use Sylius\Component\Core\Model\PaymentInterface as SyliusPaymentInterface;
 
-final class DirectPostAction implements ActionInterface, ApiAwareInterface
+final class DirectPostAction implements ActionInterface, ApiAwareInterface, GatewayAwareInterface
 {
+  use GatewayAwareTrait;
+
+
   /** @var Client */
   private $client;
 
@@ -42,13 +47,12 @@ final class DirectPostAction implements ActionInterface, ApiAwareInterface
 
     $model = ArrayObject::ensureArrayObject($request->getModel());
 
-
     try {
 
       $params = [
         'type' => 'sale',
         'amount' => number_format($payment->getAmount() / 100, 2),
-        'payment_token' => $model['card'],
+        'payment_token' => $payment->card ?? '',
         'currency' => $payment->getCurrencyCode(),
       ];
 
@@ -64,15 +68,14 @@ final class DirectPostAction implements ActionInterface, ApiAwareInterface
       $postURL = $url . '?' . http_build_query($params);
 
       $response = $this->client->request('POST', $postURL);
-
       $content = $response->getBody()->getContents();
-
       $result = $this->parseResponse($content);
 
-      $payment->setDetails(['status' => (int)$result['response_code'] ?? 400]);
-      $request->setModel($payment);
+      $code = (int)$result['response_code'] ?? 400;
     } catch (RequestException $exception) {
-      $payment->setDetails(['status' => 400]);
+      $code = 400;
+    } finally {
+      $payment->setDetails(['status' => $code]);
       $request->setModel($payment);
     }
   }

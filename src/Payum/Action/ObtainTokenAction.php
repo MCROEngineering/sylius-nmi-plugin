@@ -42,7 +42,8 @@ class ObtainTokenAction implements ActionInterface, GatewayAwareInterface, ApiAw
     /** @var $request ObtainToken */
     RequestNotSupportedException::assertSupports($this, $request);
 
-    $model = ArrayObject::ensureArrayObject($request->getModel());
+    $model = ArrayObject::ensureArrayObject($request->getFirstModel());
+    $payment = $request->getFirstModel();
 
     if ($model['card']) {
       throw new LogicException('The token has already been set.');
@@ -51,6 +52,7 @@ class ObtainTokenAction implements ActionInterface, GatewayAwareInterface, ApiAw
     $getHttpRequest = new GetHttpRequest();
     $this->gateway->execute($getHttpRequest);
     if ($getHttpRequest->method == 'POST' && isset($getHttpRequest->request['payment_token'])) {
+      $payment->card = $getHttpRequest->request['payment_token'];
       $model['card'] = $getHttpRequest->request['payment_token'];
 
       return;
