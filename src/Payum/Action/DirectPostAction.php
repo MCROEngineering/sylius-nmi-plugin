@@ -9,12 +9,12 @@ use GuzzleHttp\Exception\RequestException;
 use MCRO\SyliusNMIPlugin\Payum\SyliusApi;
 use Payum\Core\Action\ActionInterface;
 use Payum\Core\ApiAwareInterface;
-use Payum\Core\Bridge\Spl\ArrayObject;
 use Payum\Core\Exception\RequestNotSupportedException;
 use Payum\Core\Exception\UnsupportedApiException;
 use Payum\Core\GatewayAwareInterface;
 use Payum\Core\GatewayAwareTrait;
 use Payum\Stripe\Request\Api\CreateCharge;
+use Sylius\Component\Core\Model\Address;
 use Sylius\Component\Core\Model\PaymentInterface as SyliusPaymentInterface;
 
 final class DirectPostAction implements ActionInterface, ApiAwareInterface, GatewayAwareInterface
@@ -45,15 +45,23 @@ final class DirectPostAction implements ActionInterface, ApiAwareInterface, Gate
     /** @var SyliusPaymentInterface $payment */
     $payment = $request->getFirstModel();
 
-    $model = ArrayObject::ensureArrayObject($request->getModel());
+    $order = $payment->getOrder();
+    /** @var Address $billingAddress */
+    $billingAddress = $order->getBillingAddress();
+    /** @var Address $shippingAddress */
+    $shippingAddress = $order->getShippingAddress();
 
     try {
-
       $params = [
         'type' => 'sale',
         'amount' => number_format($payment->getAmount() / 100, 2),
         'payment_token' => $payment->card ?? '',
         'currency' => $payment->getCurrencyCode(),
+        'first_name' => $billingAddress->getFirstName() ?? $shippingAddress->getFirstName(),
+        'last_name' => $billingAddress->getFirstName() ?? $shippingAddress->getFirstName(),
+        'address1' => $billingAddress->getStreet() ?? $shippingAddress->getStreet(),
+        'city' => $billingAddress->getCity() ?? $shippingAddress->getCity(),
+        'zip' => $billingAddress->getPostcode() ?? $shippingAddress->getPostcode(),
       ];
 
       if ($this->api->getApiKey()) {
