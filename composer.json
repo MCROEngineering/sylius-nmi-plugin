@@ -1,5 +1,5 @@
 {
-    "name": "barta-adrian/sylius-nmi-plugin",
+    "name": "MCROEngineering/sylius-nmi-plugin",
     "type": "sylius-plugin",
     "keywords": ["sylius", "sylius-plugin"],
     "description": "MCRO NMI plugin for Sylius.",
