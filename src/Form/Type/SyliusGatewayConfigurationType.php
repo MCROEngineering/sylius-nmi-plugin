@@ -15,6 +15,7 @@ final class SyliusGatewayConfigurationType extends AbstractType
   {
     $builder->add('username', TextType::class);
     $builder->add('password', PasswordType::class);
+    $builder->add('tokenization', TextType::class);
     $builder->add('api_key', TextType::class);
   }
 }
